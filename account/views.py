@@ -65,7 +65,7 @@ def login(request):
 #login check for admin panel
 def login_action(request):
     """ Login form validation check """
-    
+
     formdata = request.POST.dict()
 
     try:
@@ -74,3 +74,11 @@ def login_action(request):
         return JsonResponse({"status":"Login successfully","flag":1})
     except AdminLogin.DoesNotExist:
         return JsonResponse({"status":"Invalid credentials","flag":0})
+
+#logout from admin panel
+def logout(request):
+    username = request.session.get('username')
+    if username is not None:
+        del request.session['username']
+        return redirect('/login')
+        # return JsonResponse({"success":"User logged out"})
